@@ -1,7 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-    <file alias="hanoi-icon.png">images/hanoi-icon.png</file>
-    <file alias="hanoi-icon.svg">images/hanoi-icon.svg</file>
-    <file>images/pole.svg</file>
+    <file alias="hanoi-icon.png">../images/hanoi-icon.png</file>
+    <file alias="hanoi-icon.svg">../images/hanoi-icon.svg</file>
 </qresource>
 </RCC>

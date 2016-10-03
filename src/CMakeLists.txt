@@ -20,7 +20,9 @@ qt4_wrap_cpp(qhanoi_moc
     playfield.h
 )
 
-add_executable(qhanoi ${qhanoi_src} ${qhanoi_moc})
+QT4_ADD_RESOURCES(qhanoi_res main.qrc)
+
+add_executable(qhanoi ${qhanoi_src} ${qhanoi_moc} ${qhanoi_res})
 
 target_link_libraries(qhanoi ${QT_LIBRARIES} ${QT_QTSVG_LIBRARY})
 
