@@ -19,4 +19,4 @@ script:
 
 # also test building in docker container if normal build succeeded
 after_success:
-    - docker build -t mghansen256/qhanoi
+    - docker build -t mghansen256/qhanoi docker/ubuntu16.10
