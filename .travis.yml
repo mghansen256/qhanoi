@@ -8,8 +8,15 @@ os: linux
 
 sudo: required
 
+services:
+    - docker
+
 install:
     - sudo apt-get install cmake qt4-dev-tools qt4-qmake libqtcore4
 
 script:
     - mkdir build && cd build && cmake ../ && make
+
+# also test building in docker container if normal build succeeded
+after_success:
+    - docker build -t mghansen256/qhanoi
