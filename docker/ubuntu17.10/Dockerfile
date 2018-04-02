@@ -1,4 +1,4 @@
-FROM ubuntu:16.10
+FROM ubuntu:17.10
 
 # first configure apt-get to use apt-cacher-ng if running on the host:
 # http://askubuntu.com/questions/53443/how-do-i-ignore-a-proxy-if-not-available
