@@ -16,8 +16,5 @@ install:
 
 script:
     - mkdir build && cd build && cmake ../ && make
-
-# also test building in docker container if normal build succeeded
-after_success:
     - cd ..
-    - docker build -t mghansen256/qhanoi docker/ubuntu16.10
+    - docker build -t mghansen256/qhanoi docker/ubuntu16.10  
