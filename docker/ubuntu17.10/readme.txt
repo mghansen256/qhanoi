@@ -1,7 +1,8 @@
 Docker image based on Ubuntu 16.10 for qhanoi
 
-# build the image
-sudo docker build -t qhanoi .
+# Build the image from the main directory of this repository,
+# because only then will the ADD commands in Dockerfile work correctly:
+sudo docker build -t qhanoi -f docker/ubuntu17.10/Dockerfile .
 # open x-server for access from container (considered insecure AFAIK)
 xhost +local:a
 # start the image in a container named qhanoi-1
