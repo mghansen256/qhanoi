@@ -17,4 +17,4 @@ install:
 script:
     - mkdir build && cd build && cmake ../ && make
     - cd ..
-    - docker build -t mghansen256/qhanoi -f docker/ubuntu17.10/Dockerfile .
+    - docker build --build-args USEAPTCACHER=no -t mghansen256/qhanoi -f docker/ubuntu17.10/Dockerfile .

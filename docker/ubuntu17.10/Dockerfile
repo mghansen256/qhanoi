@@ -5,9 +5,11 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 
 # first configure apt-get to use apt-cacher-ng if running on the host
+# add --build-arg USEAPTCACHER=no to suppress this
+ARG USEAPTCACHER=yes
 COPY docker/install-apt-cacher-ng-detector.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/install-apt-cacher-ng-detector.sh
-RUN /usr/local/bin/install-apt-cacher-ng-detector.sh
+RUN /usr/local/bin/install-apt-cacher-ng-detector.sh $USEAPTCACHER
 
 # install eatmydata to speed up the installation process
 RUN apt-get install -y eatmydata
