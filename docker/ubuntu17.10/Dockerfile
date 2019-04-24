@@ -15,7 +15,7 @@ RUN /usr/local/bin/install-apt-cacher-ng-detector.sh $USEAPTCACHER
 RUN apt-get install -y eatmydata
 
 # install build-tools and dependencies
-RUN eatmydata apt-get -y install git cmake qt4-dev-tools qt4-qmake libqtcore4 g++ ninja-build
+RUN eatmydata apt-get -y install git cmake qtbase5-dev libqt5svg5-dev g++ ninja-build
 
 # for later X11 access
 ENV QT_X11_NO_MITSHM=1

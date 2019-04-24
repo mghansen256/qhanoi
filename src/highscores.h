@@ -22,7 +22,7 @@
 #ifndef __HIGHSCORES_H
 #define __HIGHSCORES_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include <QDomDocument>
 
 class CHighscore

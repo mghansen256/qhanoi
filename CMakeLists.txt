@@ -1,9 +1,10 @@
 project(qhanoi)
 
-cmake_minimum_required(VERSION 2.4.0)
+cmake_minimum_required(VERSION 3.1.0)
 
-set(QT_USE_QTXML true)
-find_package(Qt4 REQUIRED)
+find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5Xml REQUIRED)
+find_package(Qt5Svg REQUIRED)
 
 add_subdirectory(src)
 

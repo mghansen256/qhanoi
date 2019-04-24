@@ -121,7 +121,7 @@ void CHighScoreWindow::displayScores(int numDisks)
     tableWidget->horizontalHeader()->setResizeMode(0, QHeaderView::Interactive);
     tableWidget->horizontalHeader()->resizeSections(QHeaderView::Stretch);*/
 
-    tableWidget->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
+    tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
 }
 

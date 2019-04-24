@@ -12,7 +12,7 @@ services:
     - docker
 
 install:
-    - sudo apt-get install cmake qt4-dev-tools qt4-qmake libqtcore4
+    - sudo apt-get install cmake qtbase5-dev libqt5svg5-dev
 
 script:
     - mkdir build && cd build && cmake ../ && make
