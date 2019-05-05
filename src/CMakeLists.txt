@@ -22,8 +22,15 @@ qt5_wrap_cpp(qhanoi_moc
 
 qt5_add_resources(qhanoi_res main.qrc)
 
-add_executable(qhanoi ${qhanoi_src} ${qhanoi_moc} ${qhanoi_res})
+if(ANDROID)
+    add_library(qhanoi SHARED ${qhanoi_src} ${qhanoi_moc} ${qhanoi_res})
+else()
+    add_executable(qhanoi ${qhanoi_src} ${qhanoi_moc} ${qhanoi_res})
+endif()
 
 target_link_libraries(qhanoi Qt5::Widgets Qt5::Xml Qt5::Svg ${QT_LIBRARIES} ${QT_QTSVG_LIBRARY})
 
-
+if(ANDROID)
+    include(../cmake/qt-android-cmake/AddQtAndroidApk.cmake)
+    add_qt_android_apk(qhanoi.apk qhanoi)
+endif()
