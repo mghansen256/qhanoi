@@ -1,5 +1,5 @@
 # QHanoi
-Game of Hanoi - test project for learning Qt4
+Game of Hanoi - test project for learning Qt5
 
 ## Build status
 
@@ -13,6 +13,7 @@ I made this game initially to learn Qt4 and it still serves as a test project th
 
 - [ ] Generate an [AppImage](http://appimage.org/)
 - [ ] Windows builds
-- [ ] Docker image
+- [x] Docker image
 - [ ] Code quality check using [cppcheck](http://cppcheck.sourceforge.net/)
-- [ ] Port to Qt5
+- [x] Port to Qt5
+- [ ] Make Android version fully functional
