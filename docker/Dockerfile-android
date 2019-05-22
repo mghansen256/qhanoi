@@ -1,15 +1,27 @@
 # Build qhanoi for Android inside docker
+# Copyright (C) 2019 Michael G. Hansen
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
 # note: start docker from qhanoi's main directory like this: sudo docker build -f docker/Dockerfile-android .
 # TODO:
-# - find a base image with Dockerfile source code
 # - install gradle into the image. Currently, gradle is downloaded at build time and installed into the build directory.
 
-FROM dirkhh/android-builder:5.12.03
+ARG from=dirkhh/android-builder:5.12.03
+FROM ${from}
 
 ENV ANDROID_NDK_ROOT=/android/android-ndk-r18b \
     ANDROID_SDK_ROOT=/android/android-sdk-linux \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    QT5_ANDROID=/android/Qt/5.12.0/ \
+    QT5_ANDROID=/android/Qt/5.12.3/ \
     ANDROID_ABI=armeabi-v7a \
     QT_ARCH=armv7
 
