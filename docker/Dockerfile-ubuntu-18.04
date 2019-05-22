@@ -1,6 +1,4 @@
 # Dockerfile to build qhanoi under ubuntu inside docker
-# Based on version 17.10 of ubuntu, which does not provide all sources
-# for apt-get update any more. Therefore, this file fails to build.
 #
 # Copyright (C) 2019 Michael G. Hansen
 #
@@ -14,7 +12,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND noninteractive
 

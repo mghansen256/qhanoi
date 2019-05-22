@@ -5,7 +5,7 @@ Building qhanoi inside docker images
  # Build the image from the main directory of this repository,
  # because only then will the ADD commands in Dockerfile work correctly:
 
-sudo docker build -t qhanoi -f docker/Dockerfile-ubuntu-17.10 .
+sudo docker build -t qhanoi -f docker/Dockerfile-ubuntu-18.04 .
 
  # open x-server for access from container (considered insecure AFAIK)
 xhost +local:a
