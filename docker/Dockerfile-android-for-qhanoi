@@ -1,0 +1,61 @@
+# Dockerfile to setup Android and Qt for compiling qhanoi
+
+FROM ubuntu:18.04
+
+# It is recommended to provide a caching proxy server during
+# the build in case one wants to run it several times, because
+# large downloads are performed.
+# Set http_proxy=http://proxy_ip:proxyport using this build parameter:
+# If you are running squid on your local host: http_proxy=http://172.17.0.1:3128
+# --build-arg http_proxy=...
+ARG http_proxy
+ENV http_proxy=${http_proxy}
+
+# inspired by:
+# - https://github.com/winie/qt-android-docker
+# - https://github.com/Subsurface-divelog/subsurface
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    ANDROID_NDK_ROOT=/android/android-ndk-r18b \
+    ANDROID_SDK_ROOT=/android/android-sdk-linux
+
+RUN echo "Proxy setting: \"${http_proxy}\"" \
+ && apt-get update \
+ && apt-get install -y eatmydata auto-apt-proxy \
+ && eatmydata apt-get clean
+ 
+# install general tools
+RUN eatmydata apt-get install -y wget make cmake unzip
+
+# dependencies for Android
+RUN eatmydata apt-get install -y openjdk-8-jdk
+
+# download Android NDK and SDK
+RUN wget --show-progress http://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip -O android-ndk-linux.zip
+RUN wget http://dl.google.com/android/repository/sdk-tools-linux-3859397.zip -O android-sdk-linux.zip
+
+# unzip Android NDK and SDK
+RUN mkdir -p ${ANDROID_NDK_ROOT} \
+ && mkdir -p ${ANDROID_SDK_ROOT} \
+ && eatmydata unzip -q android-ndk-linux.zip -d ${ANDROID_NDK_ROOT}/../ \
+ && eatmydata unzip -q android-sdk-linux.zip -d ${ANDROID_SDK_ROOT} 
+
+# set up Android SDK
+RUN cd ${ANDROID_SDK_ROOT}/tools/bin \
+ && yes | ./sdkmanager --licenses \
+ && ./sdkmanager "platform-tools" "build-tools;25.0.3" "platforms;android-16" \
+ && yes | ./sdkmanager --licenses
+
+RUN wget http://download.qt.io/official_releases/qt/5.12/5.12.3/qt-opensource-linux-x64-5.12.3.run -O qt-installer.run
+
+ADD qt-install-script.qs .
+
+# Set the proxy to an invalid value to prevent the installer from contacting any Qt website
+# which leads to additional questions about logins
+# - seems to actually only be problematic if we have used a proxy before. But restrict
+#   internet access anyway.
+RUN chmod +x qt-installer.run \
+ && http_proxy=none.invalid eatmydata ./qt-installer.run --platform minimal --script qt-install-script.qs -v \
+ && echo "Installer finished, waiting for docker to fsync..."
+
