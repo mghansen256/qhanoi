@@ -39,7 +39,7 @@ RUN mkdir -pv /src/qhanoi && mkdir -pv /build/qhanoi-ninja
 
 # Import the repository into the image
 # Requires start of the docker command from the root of the repository!
-# docker build -t qhanoi -f docker/ubuntu17.10/Dockerfile .
+# docker build -t qhanoi -f docker/Dockerfile-ubuntu-18.04 .
 # This import is done as late as possible, because every step after ADD
 # is re-run by docker if the added directory was changed since the last
 # run!
