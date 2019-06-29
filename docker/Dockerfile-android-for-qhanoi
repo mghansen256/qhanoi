@@ -61,7 +61,7 @@ RUN cd ${ANDROID_SDK_ROOT}/tools/bin \
 
 RUN wget http://download.qt.io/official_releases/qt/5.12/5.12.3/qt-opensource-linux-x64-5.12.3.run -O qt-installer.run
 
-ADD qt-install-script.qs .
+ADD docker/qt-install-script.qs .
 
 # Set the proxy to an invalid value to prevent the installer from contacting any Qt website
 # which leads to additional questions about logins
