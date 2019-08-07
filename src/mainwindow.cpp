@@ -37,7 +37,8 @@ CMainWindow::CMainWindow()
     setMinimumSize(300, 200);
     resize(500, 400);
 
-    connect(&myplayfield, SIGNAL(gameFinished(int, int, int)), this, SLOT(gameFinished(int, int, int)));
+    connect(&myplayfield, &CPlayField::gameFinished,
+            this, &CMainWindow::gameFinished);
 
     // load settings:
     loadSettings();
@@ -47,27 +48,33 @@ CMainWindow::CMainWindow()
 void CMainWindow::createActions()
 {
     newGameAct = new QAction(tr("&New Game"), this);
-    connect(newGameAct, SIGNAL(triggered()), &myplayfield, SLOT(doReset()));
+    connect(newGameAct, &QAction::triggered,
+            &myplayfield, &CPlayField::doReset);
 
     quitAct = new QAction(tr("&Quit"), this);
     quitAct->setStatusTip(tr("Quit Hanoi."));
-    connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
+    connect(quitAct, &QAction::triggered,
+            this, &CMainWindow::close);
 
     highscoreAct = new QAction(tr("Show Highscores"), this);
-    connect(highscoreAct, SIGNAL(triggered()), this, SLOT(showHighscores()));
+    connect(highscoreAct, &QAction::triggered,
+            this, &CMainWindow::showHighscores);
 
     aboutAct = new QAction(tr("About Hanoi"), this);
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+    connect(aboutAct, &QAction::triggered,
+            this, &CMainWindow::about);
 
     aboutQtAct = new QAction(tr("About Qt"), this);
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(aboutQtAct, &QAction::triggered,
+            qApp, &QApplication::aboutQt);
 
     sizeGroup = new QActionGroup(this);
     for (int i=0; i<(9-2); i++) {
             sizeActs[i] = new QAction(tr("%1 Disks").arg(i+3), this);
             sizeActs[i]->setCheckable(true);
             sizeGroup->addAction(sizeActs[i]);
-            connect(sizeActs[i], SIGNAL(triggered(bool)), this, SLOT(changeNumDisks(bool)));
+            connect(sizeActs[i], &QAction::triggered,
+                    this, &CMainWindow::changeNumDisks);
     }
     sizeActs[0]->setChecked(true);
 
