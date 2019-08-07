@@ -26,6 +26,7 @@
 #include "highscorewindow.h"
 
 CMainWindow::CMainWindow()
+    : QMainWindow()
 {
     setCentralWidget(&myplayfield);
 
