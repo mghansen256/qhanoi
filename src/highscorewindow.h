@@ -32,7 +32,7 @@ class CHighScoreWindow : public QDialog
     Q_OBJECT
 
 public:
-    CHighScoreWindow(int defNumDisks, HighscoreHash *highlist, QWidget* parent = 0);
+    CHighScoreWindow(int defNumDisks, HighscoreHash *highlist, QWidget* parent = nullptr);
     void displayScores(int numDisks);
 
 public slots:

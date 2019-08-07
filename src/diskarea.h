@@ -31,7 +31,7 @@ class CDiskArea : public QWidget
 {
     Q_OBJECT
 public:
-    CDiskArea(QWidget *parent = 0);
+    CDiskArea(QWidget *parent = nullptr);
     intvector disksOnPole[3];
     int flydisk;
     int flypole;

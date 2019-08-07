@@ -34,7 +34,7 @@ class CPlayField : public QWidget
 {
     Q_OBJECT
 public:
-    CPlayField(QWidget *parent = 0);
+    CPlayField(QWidget *parent = nullptr);
     
     void startOrResume();
     void setNumDisks(int num);
