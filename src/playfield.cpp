@@ -32,7 +32,8 @@ CPlayField::CPlayField(QWidget *parent)
     gameRunning = false;
     gameDone = false;
     mytimer.setInterval(1000);
-    connect(&mytimer, SIGNAL(timeout()), this, SLOT(timeChange()));
+    connect(&mytimer, &QTimer::timeout,
+            this, &CPlayField::timeChange);
 
     QGridLayout *gridLayout = new QGridLayout;
 
@@ -48,7 +49,8 @@ CPlayField::CPlayField(QWidget *parent)
     hboxLayout->addWidget(labelElapsedTime);
 
     pauseButton = new QPushButton(tr("&Pause"));
-    connect(pauseButton, SIGNAL(clicked()), this, SLOT(doPause()));
+    connect(pauseButton, &QPushButton::clicked,
+            this, &CPlayField::doPause);
     hboxLayout->addWidget(pauseButton);
     
     QWidget *dummywidget = new QWidget();
@@ -57,13 +59,16 @@ CPlayField::CPlayField(QWidget *parent)
 
     // create the buttons:
     QPushButton *mybutton = new QPushButton("1");
-    connect(mybutton, SIGNAL(clicked()), this, SLOT(PoleButtonClicked1()));
+    connect(mybutton, &QPushButton::clicked,
+            this, &CPlayField::PoleButtonClicked1);
     gridLayout->addWidget(mybutton, 1, 0);
     mybutton = new QPushButton("2");
-    connect(mybutton, SIGNAL(clicked()), this, SLOT(PoleButtonClicked2()));
+    connect(mybutton, &QPushButton::clicked,
+            this, &CPlayField::PoleButtonClicked2);
     gridLayout->addWidget(mybutton, 1, 1);
     mybutton = new QPushButton("3");
-    connect(mybutton, SIGNAL(clicked()), this, SLOT(PoleButtonClicked3()));
+    connect(mybutton, &QPushButton::clicked,
+            this, &CPlayField::PoleButtonClicked3);
     gridLayout->addWidget(mybutton, 1, 2);
 
     // create the disk-area:
