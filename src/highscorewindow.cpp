@@ -45,7 +45,9 @@ CHighScoreWindow::CHighScoreWindow(int defNumDisks, HighscoreHash *highlist, QWi
         comboBox->addItem(QString::number(i));
     }
     comboBox->setCurrentIndex(defNumDisks-3);
-    connect(comboBox, SIGNAL(activated(int)), this, SLOT(numDisksChanged(int)));
+    // TODO: change this to qOverload<int>(&...) once C++14 is enabled.
+    connect(comboBox, QOverload<int>::of(&QComboBox::activated),
+            this, &CHighScoreWindow::numDisksChanged);
 
     hbox->addWidget(comboBox);
 
@@ -58,7 +60,8 @@ CHighScoreWindow::CHighScoreWindow(int defNumDisks, HighscoreHash *highlist, QWi
 
     QPushButton *closeButton = new QPushButton(tr("Close"));
     vbox->addWidget(closeButton);
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(closeButton, &QPushButton::clicked,
+            this, &CHighScoreWindow::close);
 
     setLayout(vbox);
 
