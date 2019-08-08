@@ -1,6 +1,5 @@
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(${QT_QTSVG_INCLUDE_DIR})
 
