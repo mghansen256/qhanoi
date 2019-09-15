@@ -36,6 +36,9 @@ RUN echo "Proxy setting: \"${http_proxy}\"" \
  && apt-get update \
  && apt-get install -y eatmydata auto-apt-proxy \
  && eatmydata apt-get clean
+
+# Cache directory for anything that needs to be downloaded
+RUN mkdir /install
  
 # install general tools
 RUN eatmydata apt-get install -y wget make cmake unzip
@@ -44,14 +47,14 @@ RUN eatmydata apt-get install -y wget make cmake unzip
 RUN eatmydata apt-get install -y openjdk-8-jdk
 
 # download Android NDK and SDK
-RUN wget --show-progress http://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip -O android-ndk-linux.zip
-RUN wget http://dl.google.com/android/repository/sdk-tools-linux-3859397.zip -O android-sdk-linux.zip
+RUN wget --show-progress http://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip -O /install/android-ndk-linux.zip
+RUN wget http://dl.google.com/android/repository/sdk-tools-linux-3859397.zip -O /install/android-sdk-linux.zip
 
 # unzip Android NDK and SDK
 RUN mkdir -p ${ANDROID_NDK_ROOT} \
  && mkdir -p ${ANDROID_SDK_ROOT} \
- && eatmydata unzip -q android-ndk-linux.zip -d ${ANDROID_NDK_ROOT}/../ \
- && eatmydata unzip -q android-sdk-linux.zip -d ${ANDROID_SDK_ROOT} 
+ && eatmydata unzip -q /install/android-ndk-linux.zip -d ${ANDROID_NDK_ROOT}/../ \
+ && eatmydata unzip -q /install/android-sdk-linux.zip -d ${ANDROID_SDK_ROOT}
 
 # set up Android SDK
 RUN cd ${ANDROID_SDK_ROOT}/tools/bin \
@@ -59,16 +62,16 @@ RUN cd ${ANDROID_SDK_ROOT}/tools/bin \
  && ./sdkmanager "platform-tools" "build-tools;25.0.3" "platforms;android-16" \
  && yes | ./sdkmanager --licenses
 
-RUN wget http://download.qt.io/official_releases/qt/5.12/5.12.3/qt-opensource-linux-x64-5.12.3.run -O qt-installer.run
+RUN wget http://download.qt.io/official_releases/qt/5.12/5.12.3/qt-opensource-linux-x64-5.12.3.run -O /install/qt-installer.run
 
-ADD docker/qt-install-script.qs .
+ADD docker/qt-install-script.qs /install/
 
 # Set the proxy to an invalid value to prevent the installer from contacting any Qt website
 # which leads to additional questions about logins
 # - seems to actually only be problematic if we have used a proxy before. But restrict
 #   internet access anyway.
-RUN chmod +x qt-installer.run \
- && http_proxy=none.invalid eatmydata ./qt-installer.run --platform minimal --script qt-install-script.qs -v \
+RUN chmod +x /install/qt-installer.run \
+ && http_proxy=none.invalid eatmydata /install/qt-installer.run --platform minimal --script /install/qt-install-script.qs -v \
  && echo "Installer finished, waiting for docker to fsync..."
 
 # Install gradle via gradle-wrapper. Since the current user is root, gradle will use /root/.gradle/ as its directory.
@@ -77,3 +80,9 @@ RUN chmod +x qt-installer.run \
 RUN mkdir -p /install/gradle-dummy
 ADD ./docker/gradle-dummy /install/gradle-dummy
 RUN cd /install/gradle-dummy && /android/Qt/5.12.3/android_armv7/src/3rdparty/gradle/gradlew --no-daemon dependencies
+
+# Clear installer directory
+# Note that proper docker practice is to delete these files right after they are executed,
+# but we keep them all around until the end in case something breaks in-between and we
+# want to check it manually.
+RUN rm -rf /install/
