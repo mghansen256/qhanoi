@@ -80,7 +80,7 @@ RUN chmod +x /install/qt-installer.run \
 # https://stackoverflow.com/questions/47102615/how-to-make-gradle-download-dependencies-without-actually-building-things
 RUN mkdir -p /install/gradle-dummy
 ADD ./docker/gradle-dummy /install/gradle-dummy
-RUN cd /install/gradle-dummy && /android/Qt/5.12.3/android_armv7/src/3rdparty/gradle/gradlew --no-daemon dependencies
+RUN cd /install/gradle-dummy && eatmydata /android/Qt/5.12.3/android_armv7/src/3rdparty/gradle/gradlew --no-daemon dependencies
 
 # Clear installer directory
 # Note that proper docker practice is to delete these files right after they are executed,
