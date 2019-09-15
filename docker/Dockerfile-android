@@ -20,8 +20,7 @@ ARG from=android-for-qhanoi
 FROM ${from}
 
 # TODO: expect these in docker base image (specified under from-directive?)
-ENV QT5_ANDROID=/android/Qt/5.12.3/ \
-    ANDROID_ABI=armeabi-v7a \
+ENV ANDROID_ABI=armeabi-v7a \
     QT_ARCH=armv7
 
 # re-using variables seems only to work properly if they are set in different ENV commands

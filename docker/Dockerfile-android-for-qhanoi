@@ -30,7 +30,8 @@ ENV http_proxy=${http_proxy}
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     ANDROID_NDK_ROOT=/android/android-ndk-r18b \
-    ANDROID_SDK_ROOT=/android/android-sdk-linux
+    ANDROID_SDK_ROOT=/android/android-sdk-linux \
+    QT5_ANDROID=/android/Qt/5.12.3/
 
 RUN echo "Proxy setting: \"${http_proxy}\"" \
  && apt-get update \
