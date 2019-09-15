@@ -20,10 +20,7 @@ ARG from=android-for-qhanoi
 FROM ${from}
 
 # TODO: expect these in docker base image (specified under from-directive?)
-ENV ANDROID_NDK_ROOT=/android/android-ndk-r18b \
-    ANDROID_SDK_ROOT=/android/android-sdk-linux \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    QT5_ANDROID=/android/Qt/5.12.3/ \
+ENV QT5_ANDROID=/android/Qt/5.12.3/ \
     ANDROID_ABI=armeabi-v7a \
     QT_ARCH=armv7
 
