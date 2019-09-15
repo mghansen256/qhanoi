@@ -38,8 +38,14 @@ RUN if [ ! -d ${ANDROID_NDK_ROOT} ] ; then tput echo "Android NDK not found in A
     if [ ! -d ${QT5_ANDROID} ] ; then echo "Qt5 Android not found in QT5_ANDROID = " ${QT5_ANDROID} ; exit 1 ; fi ; \
     if [ ! -e ${QT5_ANDROID_CMAKE} ] ; then echo "Qt5 Android cmake file not found in QT5_ANDROID_CMAKE = " ${QT5_ANDROID_CMAKE} ; exit 1 ; fi
 
-# TODO: Do this only if these packages have not yet been installed!
-RUN apt-get update && apt-get install -y eatmydata auto-apt-proxy
+# Only install these packages if not yet installed. This saves the "apt-get update".
+RUN if \
+      [ "`dpkg -s eatmydata | grep "Status: install" | wc -l`" -ne "1" ] \
+      || \
+      [ "`dpkg -s auto-apt-proxy | grep "Status: install" | wc -l`" -ne "1" ] ; \
+    then \
+      apt-get update && apt-get install -y eatmydata auto-apt-proxy ; \
+    fi
 
 RUN mkdir -p /src/build && mkdir -p /build
 ADD . src/qhanoi
