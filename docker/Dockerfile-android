@@ -38,16 +38,9 @@ RUN if [ ! -d ${ANDROID_NDK_ROOT} ] ; then tput echo "Android NDK not found in A
     if [ ! -d ${QT5_ANDROID} ] ; then echo "Qt5 Android not found in QT5_ANDROID = " ${QT5_ANDROID} ; exit 1 ; fi ; \
     if [ ! -e ${QT5_ANDROID_CMAKE} ] ; then echo "Qt5 Android cmake file not found in QT5_ANDROID_CMAKE = " ${QT5_ANDROID_CMAKE} ; exit 1 ; fi
 
+# TODO: Do this only if these packages have not yet been installed!
 RUN apt-get update && apt-get install -y eatmydata auto-apt-proxy
 
-# The system version of gradle is not used by the build system yet, for some unknown reason
-RUN eatmydata apt-get install -y gradle
-
-# install Android SDK Platfrom 16
-RUN cd $ANDROID_SDK_ROOT/tools/bin/ \
-    && ./sdkmanager "platforms;android-16" \
-    && yes | ./sdkmanager --licenses
-    
 RUN mkdir -p /src/build && mkdir -p /build
 ADD . src/qhanoi
 
