@@ -80,15 +80,34 @@ RUN chmod +x /install/qt-installer.run \
  && http_proxy=none.invalid eatmydata /install/qt-installer.run --platform minimal --script /install/qt-install-script.qs -v \
  && echo "Installer finished, waiting for docker to fsync..."
 
-# Install gradle via gradle-wrapper. Since the current user is root, gradle will use /root/.gradle/ as its directory.
+# Compile a dummy project to install gradle via gradle-wrapper. Since the current user is root, gradle will use /root/.gradle/
+# as its directory.
 # We are running gradle on a stripped-down build directory of qhanoi.
-# TODO: aapt2-linux is still missing for the qhanoi build.
 # Note: To test whether the container using this build as a base image really works without network, specify "--network none"
 #       as an argument during for the build (docker build --network none ... ).
-# https://stackoverflow.com/questions/47102615/how-to-make-gradle-download-dependencies-without-actually-building-things
-RUN mkdir -p /install/gradle-dummy
-ADD ./docker/gradle-dummy /install/gradle-dummy
-RUN cd /install/gradle-dummy && eatmydata /android/Qt/5.12.3/android_armv7/src/3rdparty/gradle/gradlew --no-daemon dependencies
+RUN mkdir -p /install/dummy-project-src && mkdir -p /install/dummy-project-build
+ADD . /install/dummy-project-src
+# Note: We normally expect to be able to simply specify the Qt5 path in CMAKE_PREFIX_PATH, but then some
+# modules are not found (according to online search, maybe a bug in Ubuntu 18.04). Therefore, we specify
+# the directories for each module.
+RUN cd /install/dummy-project-build && \
+    eatmydata cmake -DCMAKE_SYSTEM_NAME="Android" \
+        -DANDROID_ABI=$ANDROID_ABI \
+        -DQT_ANDROID_SDK_ROOT="$ANDROID_SDK_ROOT" \
+        -DQT_ANDROID_NDK_ROOT="$ANDROID_NDK_ROOT" \
+        -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_ROOT"/build/cmake/android.toolchain.cmake \
+        -DANDROID_STL="c++_shared" \
+        -DCMAKE_PREFIX_PATH:UNINITIALIZED="$QT5_ANDROID_CMAKE" \
+        -DCMAKE_BUILD_TYPE=Debug \
+        -DCMAKE_MAKE_PROGRAM="make" \
+        -DCMAKE_PREFIX_PATH=QT5_ANDROID/android_armv7/lib \
+        -DQt5Gui_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Gui \
+        -DQt5Svg_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Svg \
+        -DQt5Core_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Core \
+        -DQt5Xml_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Xml \
+        -DQt5Widgets_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Widgets/ \
+        /install/dummy-project-src/docker/dummy-project && \
+    eatmydata cmake --build . -- VERBOSE=1
 
 # Clear installer directory
 # Note that proper docker practice is to delete these files right after they are executed,
