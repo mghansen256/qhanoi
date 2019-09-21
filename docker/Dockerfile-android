@@ -19,13 +19,6 @@
 ARG from=android-for-qhanoi
 FROM ${from}
 
-# TODO: expect these in docker base image (specified under from-directive?)
-ENV ANDROID_ABI=armeabi-v7a \
-    QT_ARCH=armv7
-
-# re-using variables seems only to work properly if they are set in different ENV commands
-ENV QT5_ANDROID_CMAKE=${QT5_ANDROID}/android_${QT_ARCH}/lib/cmake
-
 # Check that all environment variables point to existing directories
 # TODO: implement a script for that with colored warnings (use "tput" to color the warnings)
 # Note that [ ! -d requires its filepath to be in quotes, otherwise it does not report missing directories!
