@@ -60,9 +60,12 @@ RUN cd /build && \
         -DCMAKE_PREFIX_PATH:UNINITIALIZED="$QT5_ANDROID_CMAKE" \
         -DCMAKE_BUILD_TYPE=Debug \
         -DCMAKE_MAKE_PROGRAM="make" \
-        -DQt5Gui_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Gui -DQt5Svg_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Svg \
-        -DQt5Core_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Core -DQt5Xml_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Xml \
-        -DQt5Widgets_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Widgets/ -DCMAKE_PREFIX_PATH=QT5_ANDROID/android_armv7/lib \
+        -DCMAKE_PREFIX_PATH=QT5_ANDROID/android_armv7/lib \
+        -DQt5Gui_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Gui \
+        -DQt5Svg_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Svg \
+        -DQt5Core_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Core \
+        -DQt5Xml_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Xml \
+        -DQt5Widgets_DIR=${QT5_ANDROID}/android_armv7/lib/cmake/Qt5Widgets/ \  
         /src/qhanoi
 
 # This runs make from the Android NDK.
