@@ -4,7 +4,7 @@ project(dummy-project LANGUAGES CXX)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 if(NOT ANDROID)
-    # fail the build
+    MESSAGE(FATAL_ERROR "This project can only be built for Android.")
 endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
